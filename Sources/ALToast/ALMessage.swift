@@ -14,7 +14,7 @@ public struct ALMessage {
     let hideAfter: TimeInterval?
     let origin: ALToastMessageView.OriginSide
     
-    static var defaultHideInterval: TimeInterval = 2.0
+    public static var defaultHideInterval: TimeInterval = 2.0
   
     init(message: String?,
          icon: String? = nil,
