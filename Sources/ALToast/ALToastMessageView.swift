@@ -72,7 +72,13 @@ public final class ALToastMessageView: UIVisualEffectView {
     }()
     
     private lazy var activityIndictor: UIActivityIndicatorView = { [unowned self] in
-        let activityView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
+        let style: UIActivityIndicatorView.Style
+        if #available(iOS 13.0, *) {
+            style = .medium
+        } else {
+            style = .gray
+        }
+        let activityView = UIActivityIndicatorView(style: style)
         activityView.translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 13, *) {
             activityView.color = .label
@@ -143,6 +149,8 @@ public final class ALToastMessageView: UIVisualEffectView {
         
         if !isProgress {
             image.widthAnchor.equal(to: stack.heightAnchor)
+        } else {
+            activityIndictor.trailingAnchor.anchor(to: self.trailingAnchor, constant: -12)
         }
         
         if shadowning {

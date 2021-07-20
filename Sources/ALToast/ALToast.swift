@@ -58,7 +58,7 @@ public final class ALToast {
         }
         message.contentView.backgroundColor = backgroundColor.color
         message.onPositiveButtonTap = onTap
-        message.show(on: presentable, origin: .top, animated: true, hideAfter: payload.hideAfter)
+        message.show(on: presentable, origin: payload.origin, animated: true, hideAfter: payload.hideAfter)
         return message
     }
     
