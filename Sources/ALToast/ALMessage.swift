@@ -6,6 +6,8 @@
 //
 
 import Foundation
+#if canImport(UIKit)
+import UIKit
 
 public struct ALMessage {
     
@@ -52,10 +54,10 @@ public struct ALMessage {
     
     public static func custom(message: String?,
                               icon: String?,
-                              color: SemanticColor,
+                              color: UIColor,
                               hideAfter: TimeInterval? = Self.defaultHideInterval,
                               origin: ALToastMessageView.OriginSide = .top) -> ALMessage {
-        return ALMessage(message: message, icon: icon, hideAfter: hideAfter, color: color, origin: origin)
+        return ALMessage(message: message, icon: icon, hideAfter: hideAfter, color: .custom(color: color), origin: origin)
     }
     
     public static func progress(message: String?,
@@ -64,3 +66,5 @@ public struct ALMessage {
         return ALMessage(message: message, icon: nil, hideAfter: hideAfter, color: .info, origin: origin)
     }
 }
+
+#endif
