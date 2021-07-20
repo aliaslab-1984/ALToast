@@ -22,7 +22,7 @@ final class ALToast {
                         on view: AnyArrangeable? = nil,
                         onTap: (() -> Void)? = nil) {
         
-        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, onTap: onTap)
+        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
     }
     
     static func warning(with text: String? = nil,
@@ -31,7 +31,7 @@ final class ALToast {
                         backgroundColor: SemanticColor = .warning,
                         on view: AnyArrangeable? = nil,
                         onTap: (() -> Void)? = nil) {
-        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, onTap: onTap)
+        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
     }
     
     static func info(with text: String? = nil,
@@ -40,15 +40,25 @@ final class ALToast {
                      backgroundColor: SemanticColor = .info,
                      on view: AnyArrangeable? = nil,
                      onTap: (() -> Void)? = nil) {
-        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, onTap: onTap)
+        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
+    }
+    
+    static func progress(with text: String? = nil,
+                         image: String? = nil,
+                         tintColor: UIColor? = nil,
+                         backgroundColor: SemanticColor = .info,
+                         on view: AnyArrangeable? = nil,
+                         onTap: (() -> Void)? = nil) {
+        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: true, onTap: onTap)
     }
     
     private static func prepareAndShow(with text: String?,
-                                image: String?,
-                                tintColor: UIColor?,
-                                backgroundColor: SemanticColor,
-                                on view: AnyArrangeable?,
-                                onTap: (() -> Void)?) {
+                                       image: String?,
+                                       tintColor: UIColor?,
+                                       backgroundColor: SemanticColor,
+                                       on view: AnyArrangeable?,
+                                       isProgress: Bool,
+                                       onTap: (() -> Void)?) {
         let presentable: AnyArrangeable
         
         if let view = view {
@@ -58,9 +68,11 @@ final class ALToast {
         } else {
             return
         }
-        let message = ALToastMessageView(shadowing: false)
+        let message = ALToastMessageView(shadowing: false, isProgress: isProgress)
         message.text = text
-        message.symbolName = image
+        if !isProgress {
+            message.symbolName = image
+        }
         if let color = tintColor {
             message.tint = color
         } else {

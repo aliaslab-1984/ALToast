@@ -29,7 +29,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     public var symbolName: String? {
         didSet {
             if let imageN = symbolName {
-                if #available(iOSApplicationExtension 13.0, *) {
+                if #available(iOS 13.0, *) {
                     image.image = UIImage(systemName: imageN)
                 } else {
                     // Fallback on earlier versions
@@ -58,10 +58,10 @@ public final class ALToastMessageView: UIVisualEffectView {
         return label
     }()
     
-    private let image: UIImageView = {
+    private lazy var image: UIImageView = { [unowned self] in
         let label = UIImageView()
         label.translatesAutoresizingMaskIntoConstraints = false
-        if #available(iOSApplicationExtension 13.0, *) {
+        if #available(iOS 13.0, *) {
             label.tintColor = .label
         } else {
             // Fallback on earlier versions
@@ -70,9 +70,19 @@ public final class ALToastMessageView: UIVisualEffectView {
         label.contentMode = .scaleAspectFit
         return label
     }()
+    
+    private lazy var activityIndictor: UIActivityIndicatorView = { [unowned self] in
+        let activityView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 13, *) {
+            activityView.color = .label
+        }
+        return activityView
+    }()
 
     private let vibrancyView: UIVisualEffectView
     private let shadowning: Bool
+    private let isProgress: Bool
     
     /**
      Initialize a progressHUD
@@ -81,10 +91,12 @@ public final class ALToastMessageView: UIVisualEffectView {
         - text: what to display
         - shadowing: true to have a lighter dialog (usually because there is a shadowing view under it)
      */
-    public init(shadowing: Bool = true) {
+    public init(shadowing: Bool = true,
+                isProgress: Bool = false) {
         let blurEffect = shadowing ? Self.lightStyle : Self.prominentStyle
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         self.shadowning = shadowing
+        self.isProgress = isProgress
         self.vibrancyView.translatesAutoresizingMaskIntoConstraints = false
         super.init(effect: blurEffect)
         self.setup()
@@ -93,6 +105,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     required init?(coder aDecoder: NSCoder) {
         self.text = ""
         let blurEffect = Self.prominentStyle
+        self.isProgress = false
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         shadowning = false
         super.init(coder: aDecoder)
@@ -104,7 +117,13 @@ public final class ALToastMessageView: UIVisualEffectView {
     private static let singlePadding: CGFloat = 4
     
     lazy var stack: UIStackView = { [unowned self] in
-        return ALConstraintMaker.makeStack(axis: .horizontal, views: [self.image, self.label], alignment: .leading, distribution: .fillProportionally)
+        if self.isProgress {
+            self.activityIndictor.startAnimating()
+            return ALConstraintMaker.makeStack(axis: .horizontal, views: [self.label, self.activityIndictor], alignment: .leading, distribution: .fillProportionally)
+        } else {
+            return ALConstraintMaker.makeStack(axis: .horizontal, views: [self.image, self.label], alignment: .leading, distribution: .fillProportionally)
+        }
+        
     }()
     
     var onPositiveButtonTap: (() -> Void)?
@@ -136,7 +155,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     }
     
     private static var prominentStyle: UIBlurEffect {
-        if #available(iOSApplicationExtension 13.0, *) {
+        if #available(iOS 13.0, *) {
             return UIBlurEffect(style: .systemChromeMaterial)
         } else {
             // Fallback on earlier versions
@@ -145,7 +164,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     }
     
     private static var lightStyle: UIBlurEffect {
-        if #available(iOSApplicationExtension 13.0, *) {
+        if #available(iOS 13.0, *) {
             return UIBlurEffect(style: .systemUltraThinMaterial)
         } else {
             // Fallback on earlier versions
@@ -167,7 +186,14 @@ public final class ALToastMessageView: UIVisualEffectView {
             self.widthAnchor.equal(to: superview.widthAnchor, multiplier: isPhone ? 5/6 : 2/5)
           
             self.specify(width: nil, height: height)
-            self.mirrorVConstraints(from: superview, options: origin == .bottom ? .bottom : .top, padding: .init(all: 8), safeArea: true)
+            if origin != .center {
+                self.mirrorVConstraints(from: superview,
+                                        options: origin == .bottom ? .bottom : .top,
+                                        padding: .init(all: 8),
+                                        safeArea: true)
+            } else {
+                self.centerYAnchor.anchor(to: superview.centerYAnchor)
+            }
             self.centerXAnchor.anchor(to: superview.centerXAnchor)
             
             vibrancyView.frame = self.bounds
@@ -182,6 +208,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     
     public enum OriginSide {
         case bottom
+        case center
         case top
     }
     
