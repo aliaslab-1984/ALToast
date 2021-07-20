@@ -10,13 +10,13 @@ import ALConstraintKit
 #if canImport(UIKit)
 import UIKit
 
-final class ALToast {
+public final class ALToast {
     
     /// Super important to assign the main window to this specific property when the scene is going to come in foreground.
-    static var rootPresentable: AnyArrangeable?
+    public static var rootPresentable: AnyArrangeable?
     
     @discardableResult
-    static func success(with text: String? = nil,
+    public static func success(with text: String? = nil,
                         image: String? = nil,
                         tintColor: UIColor? = nil,
                         backgroundColor: SemanticColor = .success,
@@ -27,7 +27,7 @@ final class ALToast {
     }
     
     @discardableResult
-    static func warning(with text: String? = nil,
+    public static func warning(with text: String? = nil,
                         image: String? = nil,
                         tintColor: UIColor? = nil,
                         backgroundColor: SemanticColor = .warning,
@@ -37,7 +37,7 @@ final class ALToast {
     }
     
     @discardableResult
-    static func info(with text: String? = nil,
+    public static func info(with text: String? = nil,
                      image: String? = nil,
                      tintColor: UIColor? = nil,
                      backgroundColor: SemanticColor = .info,
@@ -47,7 +47,7 @@ final class ALToast {
     }
     
     @discardableResult
-    static func progress(with text: String? = nil,
+    public static func progress(with text: String? = nil,
                          image: String? = nil,
                          tintColor: UIColor? = nil,
                          backgroundColor: SemanticColor = .info,
