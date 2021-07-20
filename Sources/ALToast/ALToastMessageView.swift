@@ -141,7 +141,9 @@ public final class ALToastMessageView: UIVisualEffectView {
         self.isUserInteractionEnabled = true
         addGestureRecognizer(gestureRec)
         
-        image.widthAnchor.equal(to: stack.heightAnchor)
+        if !isProgress {
+            image.widthAnchor.equal(to: stack.heightAnchor)
+        }
         
         if shadowning {
             self.layer.shadowColor = UIColor.black.cgColor
