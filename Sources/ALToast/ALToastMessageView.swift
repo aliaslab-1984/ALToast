@@ -48,6 +48,8 @@ public final class ALToastMessageView: UIVisualEffectView {
         }
     }
     
+    var feedback: Feedback = .silent
+    
     private let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -258,6 +260,8 @@ public final class ALToastMessageView: UIVisualEffectView {
         } completion: { [weak self] (completed) in
             if completed {
                 self?.isHidden = false
+                
+                self?.feedback.play()
                 guard let after = hideAfter else {
                     return
                 }
