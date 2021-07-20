@@ -26,28 +26,28 @@ public struct ALMessage {
         self.origin = origin
     }
     
-    static func success(message: String?,
+    public static func success(message: String?,
                         icon: String? = "checkmark",
                         hideAfter: TimeInterval? = Self.defaultHideInterval,
                         origin: ALToastMessageView.OriginSide = .top) -> ALMessage {
         return ALMessage(message: message, icon: icon, hideAfter: hideAfter, origin: origin)
     }
     
-    static func warning(message: String?,
+    public static func warning(message: String?,
                         icon: String? = "exclamationmark.triangle",
                         hideAfter: TimeInterval? = Self.defaultHideInterval,
                         origin: ALToastMessageView.OriginSide = .top) -> ALMessage {
         return ALMessage(message: message, icon: icon, hideAfter: hideAfter, origin: origin)
     }
     
-    static func info(message: String?,
+    public static func info(message: String?,
                      icon: String? = "info.circle",
                      hideAfter: TimeInterval? = Self.defaultHideInterval,
                      origin: ALToastMessageView.OriginSide = .top) -> ALMessage {
         return ALMessage(message: message, icon: icon, hideAfter: hideAfter, origin: origin)
     }
     
-    static func progress(message: String?,
+    public static func progress(message: String?,
                          origin: ALToastMessageView.OriginSide = .center,
                          hideAfter: TimeInterval? = nil) -> ALMessage {
         return ALMessage(message: message, icon: nil, hideAfter: hideAfter, origin: origin)
