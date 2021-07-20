@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "ALConstraintKit",
+        "repositoryURL": "https://github.com/aliaslab-1984/ALConstraintKit.git",
+        "state": {
+          "branch": null,
+          "revision": "f0b8a97adfe1363886ec8cacf216fb11b7047c83",
+          "version": "1.0.12"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
