@@ -16,30 +16,10 @@ public final class ALToast {
     public static var rootPresentable: AnyArrangeable?
     
     @discardableResult
-    public static func success(message: ALMessage,
-                               tintColor: UIColor? = nil,
-                               backgroundColor: SemanticColor = .success,
-                               on view: AnyArrangeable? = nil,
-                               onTap: (() -> Void)? = nil) -> ALToastMessageView? {
-        
-        return prepareAndShow(payload: message, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
-    }
-    
-    @discardableResult
-    public static func warning(message: ALMessage,tintColor: UIColor? = nil,
-                               backgroundColor: SemanticColor = .warning,
-                               on view: AnyArrangeable? = nil,
-                               onTap: (() -> Void)? = nil) -> ALToastMessageView? {
-        return prepareAndShow(payload: message, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
-    }
-    
-    @discardableResult
-    public static func info(message: ALMessage,
-                            tintColor: UIColor? = nil,
-                            backgroundColor: SemanticColor = .info,
+    public static func show(message: ALMessage,
                             on view: AnyArrangeable? = nil,
                             onTap: (() -> Void)? = nil) -> ALToastMessageView? {
-        return prepareAndShow(payload: message, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
+        return prepareAndShow(payload: message, tintColor: message.color.tintColor, backgroundColor: message.color, on: view, isProgress: false, onTap: onTap)
     }
     
     @discardableResult

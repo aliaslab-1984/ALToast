@@ -199,6 +199,7 @@ public final class ALToastMessageView: UIVisualEffectView {
             vibrancyView.frame = self.bounds
             
             layer.masksToBounds = true
+            label.centerXAnchor.anchor(to: self.centerXAnchor)
             label.text = text
             label.textAlignment = NSTextAlignment.center
             label.textColor = textColor
