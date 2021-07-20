@@ -219,7 +219,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     public func show(on view: AnyArrangeable,
                      origin: OriginSide = .bottom,
                      animated: Bool = true,
-                     hideAfter: TimeInterval = 4.0) {
+                     hideAfter: TimeInterval? = 4.0) {
         
         guard superview == nil else {
             return
@@ -247,7 +247,10 @@ public final class ALToastMessageView: UIVisualEffectView {
         } completion: { [weak self] (completed) in
             if completed {
                 self?.isHidden = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + hideAfter) { [weak self] in
+                guard let after = hideAfter else {
+                    return
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + after) { [weak self] in
                     self?.hide(animated: animated)
                 }
             }

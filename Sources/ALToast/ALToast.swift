@@ -15,41 +15,45 @@ final class ALToast {
     /// Super important to assign the main window to this specific property when the scene is going to come in foreground.
     static var rootPresentable: AnyArrangeable?
     
+    @discardableResult
     static func success(with text: String? = nil,
                         image: String? = nil,
                         tintColor: UIColor? = nil,
                         backgroundColor: SemanticColor = .success,
                         on view: AnyArrangeable? = nil,
-                        onTap: (() -> Void)? = nil) {
+                        onTap: (() -> Void)? = nil) -> ALToastMessageView? {
         
-        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
+        return prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
     }
     
+    @discardableResult
     static func warning(with text: String? = nil,
                         image: String? = nil,
                         tintColor: UIColor? = nil,
                         backgroundColor: SemanticColor = .warning,
                         on view: AnyArrangeable? = nil,
-                        onTap: (() -> Void)? = nil) {
-        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
+                        onTap: (() -> Void)? = nil) -> ALToastMessageView? {
+        return prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
     }
     
+    @discardableResult
     static func info(with text: String? = nil,
                      image: String? = nil,
                      tintColor: UIColor? = nil,
                      backgroundColor: SemanticColor = .info,
                      on view: AnyArrangeable? = nil,
-                     onTap: (() -> Void)? = nil) {
-        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
+                     onTap: (() -> Void)? = nil) -> ALToastMessageView? {
+        return prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: false, onTap: onTap)
     }
     
+    @discardableResult
     static func progress(with text: String? = nil,
                          image: String? = nil,
                          tintColor: UIColor? = nil,
                          backgroundColor: SemanticColor = .info,
                          on view: AnyArrangeable? = nil,
-                         onTap: (() -> Void)? = nil) {
-        prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: true, onTap: onTap)
+                         onTap: (() -> Void)? = nil) -> ALToastMessageView? {
+        return prepareAndShow(with: text, image: image, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: true, onTap: onTap)
     }
     
     private static func prepareAndShow(with text: String?,
@@ -58,7 +62,7 @@ final class ALToast {
                                        backgroundColor: SemanticColor,
                                        on view: AnyArrangeable?,
                                        isProgress: Bool,
-                                       onTap: (() -> Void)?) {
+                                       onTap: (() -> Void)?) -> ALToastMessageView? {
         let presentable: AnyArrangeable
         
         if let view = view {
@@ -66,7 +70,7 @@ final class ALToast {
         } else if let root = rootPresentable {
             presentable = root
         } else {
-            return
+            return nil
         }
         let message = ALToastMessageView(shadowing: false, isProgress: isProgress)
         message.text = text
@@ -80,7 +84,8 @@ final class ALToast {
         }
         message.contentView.backgroundColor = backgroundColor.color
         message.onPositiveButtonTap = onTap
-        message.show(on: presentable, origin: .top, animated: true, hideAfter: 1.5)
+        message.show(on: presentable, origin: .top, animated: true, hideAfter: isProgress ? nil : 1.5)
+        return message
     }
     
 }
