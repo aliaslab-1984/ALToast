@@ -18,8 +18,9 @@ public final class ALToast {
     @discardableResult
     public static func show(message: ALMessage,
                             on view: AnyArrangeable? = nil,
-                            onTap: (() -> Void)? = nil) -> ALToastMessageView? {
-        return prepareAndShow(payload: message, tintColor: message.color.tintColor, backgroundColor: message.color, on: view, isProgress: false, onTap: onTap)
+                            onTap: (() -> Void)? = nil,
+                            onDismiss: (() -> Void)? = nil) -> ALToastMessageView? {
+        return prepareAndShow(payload: message, tintColor: message.color.tintColor, backgroundColor: message.color, on: view, isProgress: false, onTap: onTap, onDismiss: onDismiss)
     }
     
     @discardableResult
@@ -27,8 +28,9 @@ public final class ALToast {
                                 tintColor: UIColor? = nil,
                                 backgroundColor: SemanticColor = .info,
                                 on view: AnyArrangeable? = nil,
-                                onTap: (() -> Void)? = nil) -> ALToastMessageView? {
-        return prepareAndShow(payload: message, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: true, onTap: onTap)
+                                onTap: (() -> Void)? = nil,
+                                onDismiss: (() -> Void)? = nil) -> ALToastMessageView? {
+        return prepareAndShow(payload: message, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: true, onTap: onTap, onDismiss: onDismiss)
     }
     
     private static func prepareAndShow(payload: ALMessage,
@@ -36,7 +38,8 @@ public final class ALToast {
                                        backgroundColor: SemanticColor,
                                        on view: AnyArrangeable?,
                                        isProgress: Bool,
-                                       onTap: (() -> Void)?) -> ALToastMessageView? {
+                                       onTap: (() -> Void)?,
+                                       onDismiss: (() -> Void)? = nil) -> ALToastMessageView? {
         let presentable: AnyArrangeable
         
         if let view = view {
@@ -58,6 +61,7 @@ public final class ALToast {
         }
         message.contentView.backgroundColor = backgroundColor.color
         message.onPositiveButtonTap = onTap
+        message.onDismiss = onDismiss
         message.feedback = payload.feedbackType
         message.show(on: presentable, origin: payload.origin, animated: true, hideAfter: payload.hideAfter)
         return message
