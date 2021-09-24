@@ -26,14 +26,20 @@ public final class ALToastMessageView: UIVisualEffectView {
         }
     }
     
-    public var symbolName: String? {
+    public var symbolName: ImageResource? {
         didSet {
             if let imageN = symbolName {
-                if #available(iOS 13.0, *) {
-                    image.image = UIImage(systemName: imageN)
-                } else {
-                    // Fallback on earlier versions
-                    image.image = UIImage(named: imageN)
+                
+                switch imageN {
+                case let .symbol(stringName):
+                    if #available(iOS 13.0, *) {
+                        image.image = UIImage(systemName: stringName)
+                    } else {
+                        // Fallback on earlier versions
+                        image.image = UIImage(named: stringName)
+                    }
+                case let .image(optionaImage):
+                    image.image = optionaImage
                 }
             } else {
                 image.image = nil
@@ -56,7 +62,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         label.adjustsFontSizeToFitWidth = true
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 2
+        label.numberOfLines = 1
         return label
     }()
     
@@ -127,7 +133,11 @@ public final class ALToastMessageView: UIVisualEffectView {
     lazy var stack: UIStackView = { [unowned self] in
         if self.isProgress {
             self.activityIndictor.startAnimating()
-            return ALConstraintMaker.makeStack(axis: .horizontal, views: [self.label, self.activityIndictor], alignment: .leading, distribution: .fillProportionally)
+            let stack = ALConstraintMaker.makeStack(axis: .horizontal, views: [self.label, self.activityIndictor], alignment: .leading, distribution: .fillProportionally)
+            if #available(iOS 11.0, *) {
+                stack.setCustomSpacing(12.0, after: activityIndictor)
+            }
+            return stack
         } else {
             return ALConstraintMaker.makeStack(axis: .horizontal, views: [self.image, self.label], alignment: .leading, distribution: .fillProportionally)
         }

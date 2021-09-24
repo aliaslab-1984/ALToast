@@ -52,7 +52,7 @@ public final class ALToast {
         let message = ALToastMessageView(shadowing: false, isProgress: isProgress)
         message.text = payload.message
         if !isProgress {
-            message.symbolName = payload.iconName
+            message.symbolName = payload.imageResource
         }
         if let color = tintColor {
             message.tint = color
