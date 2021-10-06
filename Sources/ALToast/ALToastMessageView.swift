@@ -137,6 +137,7 @@ public final class ALToastMessageView: UIVisualEffectView {
             if #available(iOS 11.0, *) {
                 stack.setCustomSpacing(12.0, after: activityIndictor)
             }
+            stack.spacing = 12.0
             return stack
         } else {
             return ALConstraintMaker.makeStack(axis: .horizontal, views: [self.image, self.label], alignment: .leading, distribution: .fillProportionally)
@@ -153,7 +154,6 @@ public final class ALToastMessageView: UIVisualEffectView {
         vibrancyView.fillSuperview()
         
         stack.fillSuperview(padding: .init([.horizontal: 8]))
-        stack.spacing = 12
     
         let gestureRec = UITapGestureRecognizer(target: self, action: #selector(buttonDismiss))
         self.isUserInteractionEnabled = true
@@ -221,7 +221,7 @@ public final class ALToastMessageView: UIVisualEffectView {
             vibrancyView.frame = self.bounds
             
             layer.masksToBounds = true
-            label.centerXAnchor.anchor(to: self.centerXAnchor)
+            // label.centerXAnchor.anchor(to: self.centerXAnchor)
             label.text = text
             label.textAlignment = NSTextAlignment.center
             label.textColor = textColor

@@ -9,18 +9,28 @@ import Foundation
 #if canImport(UIKit)
 import UIKit
 
+/// Represents a generic image resource that could be displayed inside the Toast.
 public enum ImageResource {
+    /// An SFSymbol name.
     case symbol(name: String)
+    /// A generic optional UIImage (it will be resized to match the toast size).
     case image(image: UIImage?)
 }
 
+/// Represents a message that is going to be displayed inside a toast. It also specifies the semantic meaning of the message,
+/// whether it's a success, an info, an error or a progress.
 public struct ALMessage {
-    
+    /// The text message that will be displayed inside the toast.
     let message: String?
+    /// The optional image that will be displayed inside the toast.
     let imageResource: ImageResource?
+    /// A time interval after which the toast view will disappear.
     let hideAfter: TimeInterval?
+    /// Where the toast view will be presented.
     let origin: ALToastMessageView.OriginSide
+    /// The semantic color used (success, progress, info...)
     let color: SemanticColor
+    /// The required haptic feedback that will be performed, according to the semantic.
     let feedbackType: Feedback
     
     public static var defaultHideInterval: TimeInterval = 2.0
