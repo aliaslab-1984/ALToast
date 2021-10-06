@@ -163,16 +163,16 @@ public final class ALToastMessageView: UIVisualEffectView {
     }
     
     private func setupBaseComponents() {
-        vibrancyView.addSubview(label)
+        vibrancyView.contentView.addSubview(label)
         label.centerXAnchor.anchor(to: vibrancyView.centerXAnchor)
         label.mirrorVConstraints(from: self.vibrancyView)
         
         if isProgress {
-            vibrancyView.addSubview(activityIndictor)
+            vibrancyView.contentView.addSubview(activityIndictor)
             activityIndictor.trailingAnchor.anchor(to: vibrancyView.trailingAnchor, constant: -8)
             activityIndictor.mirrorVConstraints(from: vibrancyView)
         } else {
-            vibrancyView.addSubview(image)
+            vibrancyView.contentView.addSubview(image)
             image.trailingAnchor.anchor(to: vibrancyView.leadingAnchor, constant: 8)
             image.mirrorVConstraints(from: vibrancyView)
             image.widthAnchor.equal(to: vibrancyView.heightAnchor)
