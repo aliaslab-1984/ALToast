@@ -169,6 +169,8 @@ public final class ALToastMessageView: UIVisualEffectView {
             self.layer.shadowColor = UIColor.black.cgColor
             self.layer.shadowRadius = 10
         }
+        
+        label.centerXAnchor.anchor(to: self.centerXAnchor)
     }
     
     @objc private func buttonDismiss() {
@@ -221,7 +223,6 @@ public final class ALToastMessageView: UIVisualEffectView {
             vibrancyView.frame = self.bounds
             
             layer.masksToBounds = true
-            // label.centerXAnchor.anchor(to: self.centerXAnchor)
             label.text = text
             label.textAlignment = NSTextAlignment.center
             label.textColor = textColor
