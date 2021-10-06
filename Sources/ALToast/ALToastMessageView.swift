@@ -66,7 +66,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         return label
     }()
     
-    private lazy var image: UIImageView = { [unowned self] in
+    private lazy var image: UIImageView = {
         let label = UIImageView()
         label.translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 13.0, *) {
@@ -173,7 +173,7 @@ public final class ALToastMessageView: UIVisualEffectView {
             activityIndictor.mirrorVConstraints(from: vibrancyView)
         } else {
             vibrancyView.contentView.addSubview(image)
-            image.trailingAnchor.anchor(to: vibrancyView.leadingAnchor, constant: 8)
+            image.leadingAnchor.anchor(to: vibrancyView.leadingAnchor, constant: 8)
             image.mirrorVConstraints(from: vibrancyView)
             image.widthAnchor.equal(to: vibrancyView.heightAnchor)
         }
