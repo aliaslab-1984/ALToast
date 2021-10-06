@@ -59,7 +59,7 @@ public final class ALToast {
         } else {
             message.tint = backgroundColor.tintColor
         }
-        message.contentView.backgroundColor = backgroundColor.color
+        message.contentView.backgroundColor = backgroundColor.color?.withAlphaComponent(0.7)
         message.onPositiveButtonTap = onTap
         message.onDismiss = onDismiss
         message.feedback = payload.feedbackType

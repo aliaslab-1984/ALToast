@@ -130,20 +130,6 @@ public final class ALToastMessageView: UIVisualEffectView {
     private static let labelHeight: CGFloat = 40
     private static let singlePadding: CGFloat = 4
     
-    lazy var stack: UIStackView = { [unowned self] in
-        if self.isProgress {
-            self.activityIndictor.startAnimating()
-            let stack = ALConstraintMaker.makeStack(axis: .horizontal, views: [self.label, self.activityIndictor], alignment: .leading, distribution: .fillProportionally)
-            if #available(iOS 11.0, *) {
-                stack.setCustomSpacing(12.0, after: activityIndictor)
-            }
-            stack.spacing = 12.0
-            return stack
-        } else {
-            return ALConstraintMaker.makeStack(axis: .horizontal, views: [self.image, self.label], alignment: .leading, distribution: .fillProportionally)
-        }
-    }()
-    
     var onPositiveButtonTap: (() -> Void)?
     
     func setup() {
@@ -171,11 +157,12 @@ public final class ALToastMessageView: UIVisualEffectView {
             vibrancyView.contentView.addSubview(activityIndictor)
             activityIndictor.trailingAnchor.anchor(to: vibrancyView.trailingAnchor, constant: -8)
             activityIndictor.mirrorVConstraints(from: vibrancyView)
+            activityIndictor.widthAnchor.equal(to: vibrancyView.heightAnchor, multiplier: 0.8)
         } else {
             vibrancyView.contentView.addSubview(image)
             image.leadingAnchor.anchor(to: vibrancyView.leadingAnchor, constant: 8)
             image.mirrorVConstraints(from: vibrancyView, padding: .init(all: 8))
-            image.widthAnchor.equal(to: vibrancyView.heightAnchor)
+            image.widthAnchor.equal(to: vibrancyView.heightAnchor, multiplier: 0.8)
         }
     }
     
@@ -233,6 +220,10 @@ public final class ALToastMessageView: UIVisualEffectView {
             label.textAlignment = NSTextAlignment.center
             label.textColor = textColor
             self.transform = .init(translationX: 0.0, y: origin == .bottom ? 200 : -200)
+            
+            if isProgress {
+                activityIndictor.startAnimating()
+            }
         }
     }
     
