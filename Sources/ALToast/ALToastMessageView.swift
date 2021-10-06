@@ -174,7 +174,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         } else {
             vibrancyView.contentView.addSubview(image)
             image.leadingAnchor.anchor(to: vibrancyView.leadingAnchor, constant: 8)
-            image.mirrorVConstraints(from: vibrancyView)
+            image.mirrorVConstraints(from: vibrancyView, padding: .init(all: 8))
             image.widthAnchor.equal(to: vibrancyView.heightAnchor)
         }
     }
