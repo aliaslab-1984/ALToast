@@ -142,35 +142,41 @@ public final class ALToastMessageView: UIVisualEffectView {
         } else {
             return ALConstraintMaker.makeStack(axis: .horizontal, views: [self.image, self.label], alignment: .leading, distribution: .fillProportionally)
         }
-        
     }()
     
     var onPositiveButtonTap: (() -> Void)?
     
     func setup() {
         contentView.addSubview(vibrancyView)
-        vibrancyView.contentView.addSubview(stack)
-        
         vibrancyView.fillSuperview()
         
-        stack.fillSuperview(padding: .init([.horizontal: 8]))
+        setupBaseComponents()
     
         let gestureRec = UITapGestureRecognizer(target: self, action: #selector(buttonDismiss))
         self.isUserInteractionEnabled = true
         addGestureRecognizer(gestureRec)
         
-        if !isProgress {
-            image.widthAnchor.equal(to: stack.heightAnchor)
-        } else {
-            activityIndictor.trailingAnchor.anchor(to: self.trailingAnchor, constant: -12)
-        }
-        
         if shadowning {
             self.layer.shadowColor = UIColor.black.cgColor
             self.layer.shadowRadius = 10
         }
+    }
+    
+    private func setupBaseComponents() {
+        vibrancyView.addSubview(label)
+        label.centerXAnchor.anchor(to: vibrancyView.centerXAnchor)
+        label.mirrorVConstraints(from: self.vibrancyView)
         
-        label.centerXAnchor.anchor(to: self.centerXAnchor)
+        if isProgress {
+            vibrancyView.addSubview(activityIndictor)
+            activityIndictor.trailingAnchor.anchor(to: vibrancyView.trailingAnchor, constant: -8)
+            activityIndictor.mirrorVConstraints(from: vibrancyView)
+        } else {
+            vibrancyView.addSubview(image)
+            image.trailingAnchor.anchor(to: vibrancyView.leadingAnchor, constant: 8)
+            image.mirrorVConstraints(from: vibrancyView)
+            image.widthAnchor.equal(to: vibrancyView.heightAnchor)
+        }
     }
     
     @objc private func buttonDismiss() {
