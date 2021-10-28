@@ -6,8 +6,17 @@
         "repositoryURL": "https://github.com/aliaslab-1984/ALConstraintKit.git",
         "state": {
           "branch": null,
-          "revision": "f0b8a97adfe1363886ec8cacf216fb11b7047c83",
-          "version": "1.0.12"
+          "revision": "5b33beaa01b87f8b81bd1760a323d48aa282ddcb",
+          "version": "1.0.13"
+        }
+      },
+      {
+        "package": "MarqueeLabel",
+        "repositoryURL": "https://github.com/cbpowell/MarqueeLabel.git",
+        "state": {
+          "branch": null,
+          "revision": "f2c72a5f8568579dade6350dc26a482076d3d346",
+          "version": "4.3.0"
         }
       }
     ]

@@ -7,6 +7,7 @@
 
 import Foundation
 import ALConstraintKit
+import MarqueeLabel
 #if canImport(UIKit)
 import UIKit
 
@@ -56,13 +57,12 @@ public final class ALToastMessageView: UIVisualEffectView {
     
     var feedback: Feedback = .silent
     
-    private let label: UILabel = {
-        let label = UILabel()
+    private let label: MarqueeLabel = {
+        let label = MarqueeLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontSizeToFitWidth = true
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 1
+        
         return label
     }()
     
