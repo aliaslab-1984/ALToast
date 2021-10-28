@@ -191,8 +191,8 @@ public final class ALToastMessageView: UIVisualEffectView {
         return CGRect(origin: labelOrigin, size: labelSize)
     }
     
-    public override func setNeedsDisplay() {
-        super.setNeedsDisplay()
+    public override func layoutIfNeeded() {
+        super.layoutIfNeeded()
         label.frame = makeFrame()
     }
     
