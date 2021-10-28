@@ -58,7 +58,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     var feedback: Feedback = .silent
     
     private lazy var label: MarqueeLabel = { [unowned self] in
-        let label = MarqueeLabel(frame: makeFrame(), duration: 0.5, fadeLength: 20)
+        let label = MarqueeLabel(frame: makeFrame(), duration: 4.0, fadeLength: 20)
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 1
         return label
@@ -194,6 +194,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     public override func layoutIfNeeded() {
         super.layoutIfNeeded()
         label.frame = makeFrame()
+        label.fadeLength = 20
     }
     
     public override func didMoveToSuperview() {
