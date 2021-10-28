@@ -58,7 +58,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     var feedback: Feedback = .silent
     
     private lazy var label: MarqueeLabel = { [unowned self] in
-        let label = MarqueeLabel(frame: makeFrame(), duration: 4.0, fadeLength: 20)
+        let label = MarqueeLabel(frame: makeFrame(), duration: self.hideAfter, fadeLength: 20)
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 1
         return label
@@ -95,7 +95,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     private let vibrancyView: UIVisualEffectView
     private let shadowning: Bool
     private let isProgress: Bool
-    
+    private let hideAfter: TimeInterval
     /**
      Initialize a progressHUD
      
@@ -104,12 +104,14 @@ public final class ALToastMessageView: UIVisualEffectView {
         - shadowing: true to have a lighter dialog (usually because there is a shadowing view under it)
      */
     public init(shadowing: Bool = true,
-                isProgress: Bool = false) {
+                isProgress: Bool = false,
+                hideAfter: TimeInterval) {
         let blurEffect = shadowing ? Self.lightStyle : Self.prominentStyle
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         self.shadowning = shadowing
         self.isProgress = isProgress
         self.vibrancyView.translatesAutoresizingMaskIntoConstraints = false
+        self.hideAfter = hideAfter
         super.init(effect: blurEffect)
         self.setup()
     }
@@ -120,6 +122,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         self.isProgress = false
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         shadowning = false
+        self.hideAfter = 2.0
         super.init(coder: aDecoder)
         self.setup()
     }

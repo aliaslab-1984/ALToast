@@ -49,7 +49,7 @@ public final class ALToast {
         } else {
             return nil
         }
-        let message = ALToastMessageView(shadowing: false, isProgress: isProgress)
+        let message = ALToastMessageView(shadowing: false, isProgress: isProgress, hideAfter: payload.hideAfter ?? 2.0)
         message.text = payload.message
         if !isProgress {
             message.symbolName = payload.imageResource
