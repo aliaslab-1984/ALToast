@@ -57,12 +57,10 @@ public final class ALToastMessageView: UIVisualEffectView {
     
     var feedback: Feedback = .silent
     
-    private let label: MarqueeLabel = {
-        let label = MarqueeLabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var label: MarqueeLabel = { [unowned self] in
+        let label = MarqueeLabel(frame: makeFrame(), duration: 0.5, fadeLength: 20)
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 1
-        
         return label
     }()
     
@@ -150,8 +148,6 @@ public final class ALToastMessageView: UIVisualEffectView {
     
     private func setupBaseComponents() {
         vibrancyView.contentView.addSubview(label)
-        label.centerXAnchor.anchor(to: vibrancyView.centerXAnchor)
-        label.mirrorVConstraints(from: self.vibrancyView)
         
         if isProgress {
             vibrancyView.contentView.addSubview(activityIndictor)
@@ -187,6 +183,17 @@ public final class ALToastMessageView: UIVisualEffectView {
             // Fallback on earlier versions
             return UIBlurEffect(style: .light)
         }
+    }
+    
+    private func makeFrame() -> CGRect {
+        let labelOrigin = CGPoint(x: self.frame.height, y: 0.0)
+        let labelSize = CGSize(width: self.frame.width - labelOrigin.x, height: self.frame.height)
+        return CGRect(origin: labelOrigin, size: labelSize)
+    }
+    
+    public override func setNeedsDisplay() {
+        super.setNeedsDisplay()
+        label.frame = makeFrame()
     }
     
     public override func didMoveToSuperview() {
