@@ -58,9 +58,10 @@ public final class ALToastMessageView: UIVisualEffectView {
     var feedback: Feedback = .silent
     
     private lazy var label: MarqueeLabel = { [unowned self] in
-        let label = MarqueeLabel(frame: makeFrame(), duration: self.hideAfter, fadeLength: 20)
+        let label = MarqueeLabel(frame: makeFrame(), duration: self.hideAfter, fadeLength: 30)
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 1
+        label.textAlignment = .center
         return label
     }()
     
@@ -195,7 +196,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         if self.isProgress {
             labelSize = CGSize(width: self.frame.width, height: self.frame.height)
         } else {
-            labelSize = CGSize(width: self.frame.width - (symbolName == nil ? 0 : labelOrigin.x), height: self.frame.height)
+            labelSize = CGSize(width: self.frame.width, height: self.frame.height)
         }
         return CGRect(origin: labelOrigin, size: labelSize)
     }
@@ -203,7 +204,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     public override func layoutIfNeeded() {
         super.layoutIfNeeded()
         label.frame = makeFrame()
-        label.fadeLength = 20
+        label.fadeLength = abs(self.frame.height - 10)
     }
     
     public override func didMoveToSuperview() {
