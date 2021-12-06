@@ -15,6 +15,7 @@ public final class ALToast {
     /// Super important to assign the main window to this specific property when the scene is going to come in foreground.
     public static var rootPresentable: AnyArrangeable?
     
+    @MainActor
     @discardableResult
     public static func show(message: ALMessage,
                             on view: AnyArrangeable? = nil,
@@ -23,6 +24,7 @@ public final class ALToast {
         return prepareAndShow(payload: message, tintColor: message.color.tintColor, backgroundColor: message.color, on: view, isProgress: false, onTap: onTap, onDismiss: onDismiss)
     }
     
+    @MainActor
     @discardableResult
     public static func progress(message: ALMessage,
                                 tintColor: UIColor? = nil,
@@ -33,6 +35,7 @@ public final class ALToast {
         return prepareAndShow(payload: message, tintColor: tintColor, backgroundColor: backgroundColor, on: view, isProgress: true, onTap: onTap, onDismiss: onDismiss)
     }
     
+    @MainActor
     private static func prepareAndShow(payload: ALMessage,
                                        tintColor: UIColor?,
                                        backgroundColor: SemanticColor,

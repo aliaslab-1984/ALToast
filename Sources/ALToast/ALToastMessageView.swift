@@ -65,16 +65,16 @@ public final class ALToastMessageView: UIVisualEffectView {
     }()
     
     private lazy var image: UIImageView = {
-        let label = UIImageView()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 13.0, *) {
-            label.tintColor = .label
+            imageView.tintColor = .label
         } else {
             // Fallback on earlier versions
-            label.tintColor = .black
+            imageView.tintColor = .black
         }
-        label.contentMode = .scaleAspectFit
-        return label
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     private lazy var activityIndictor: UIActivityIndicatorView = { [unowned self] in
@@ -103,6 +103,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         - text: what to display
         - shadowing: true to have a lighter dialog (usually because there is a shadowing view under it)
      */
+    @MainActor
     public init(shadowing: Bool = true,
                 isProgress: Bool = false,
                 hideAfter: TimeInterval) {
@@ -248,6 +249,7 @@ public final class ALToastMessageView: UIVisualEffectView {
     
     var onDismiss: (() -> Void)?
     
+    @MainActor
     public func show(on view: AnyArrangeable,
                      origin: OriginSide = .bottom,
                      animated: Bool = true,
@@ -291,6 +293,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         }
     }
     
+    @MainActor
     public func hide(animated: Bool = true) {
         
         guard let _ = superview else {
