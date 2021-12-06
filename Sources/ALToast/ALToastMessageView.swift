@@ -191,7 +191,12 @@ public final class ALToastMessageView: UIVisualEffectView {
     
     private func makeFrame() -> CGRect {
         let labelOrigin = CGPoint(x: self.frame.height, y: 0.0)
-        let labelSize = CGSize(width: self.frame.width - labelOrigin.x, height: self.frame.height)
+        let labelSize: CGSize
+        if self.isProgress {
+            labelSize = CGSize(width: self.frame.width, height: self.frame.height)
+        } else {
+            labelSize = CGSize(width: self.frame.width - (symbolName == nil ? 0 : labelOrigin.x), height: self.frame.height)
+        }
         return CGRect(origin: labelOrigin, size: labelSize)
     }
     
