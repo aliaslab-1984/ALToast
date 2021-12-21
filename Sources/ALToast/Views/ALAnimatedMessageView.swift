@@ -53,10 +53,10 @@ public final class ALAnimatedMessageView: ALMessageView {
         self.warningMessage = warning
         self.progressMessage = progress
         self.state = initialState
+        super.init(shadowing: true, isProgress: false, hideAfter: 0)
         if #available(iOS 13.0, *) {
             self.activityIndictor.style = .large
         }
-        super.init(shadowing: true, isProgress: false, hideAfter: 0)
     }
     
     required init?(coder: NSCoder) {
