@@ -76,16 +76,18 @@ public final class ALAnimatedMessageView: ALMessageView {
         if state == .progress {
             if activityIndictor.superview == nil {
                 vibrancyView.contentView.addSubview(activityIndictor)
-                activityIndictor.mirrorVConstraints(from: vibrancyView, options: .top, padding: .init(all: 4))
-                activityIndictor.mirrorHConstraints(from: vibrancyView, padding: .init(all: 4))
+                activityIndictor.mirrorVConstraints(from: vibrancyView, options: .top, padding: .init(all: 8))
+                activityIndictor.mirrorHConstraints(from: vibrancyView, padding: .init(all: 8))
+                activityIndictor.bottomAnchor.anchor(to: label.topAnchor, constant: -8)
                 image.removeFromSuperview()
                 image.deactivateAllConstraints()
             }
         } else {
             if image.superview == nil {
                 vibrancyView.contentView.addSubview(image)
-                image.mirrorVConstraints(from: vibrancyView, options: .top, padding: .init(all: 4))
-                image.mirrorHConstraints(from: vibrancyView, padding: .init(all: 4))
+                image.mirrorVConstraints(from: vibrancyView, options: .top, padding: .init(all: 8))
+                image.bottomAnchor.anchor(to: label.topAnchor, constant: -8)
+                image.mirrorHConstraints(from: vibrancyView, padding: .init(all: 8))
                 activityIndictor.removeFromSuperview()
                 activityIndictor.deactivateAllConstraints()
             }
