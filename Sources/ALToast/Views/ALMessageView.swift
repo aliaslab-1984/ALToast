@@ -194,6 +194,10 @@ public class ALMessageView: UIVisualEffectView {
     
     public override func layoutIfNeeded() {
         super.layoutIfNeeded()
+        layoutLabel()
+    }
+    
+    func layoutLabel() {
         label.frame = updateLabelFrame()
         label.fadeLength = abs(self.frame.height - 10)
     }

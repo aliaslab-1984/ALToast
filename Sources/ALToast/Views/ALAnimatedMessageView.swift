@@ -59,6 +59,7 @@ public final class ALAnimatedMessageView: ALMessageView {
         if #available(iOS 13.0, *) {
             self.activityIndictor.style = .large
         }
+        label.font = .preferredFont(forTextStyle: .headline)
     }
     
     required init?(coder: NSCoder) {
@@ -67,7 +68,11 @@ public final class ALAnimatedMessageView: ALMessageView {
     
     override func setupBaseComponents() {
         vibrancyView.contentView.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
+        label.mirrorVConstraints(from: vibrancyView, options: .bottom, padding: .init(all: 8))
+        label.mirrorHConstraints(from: vibrancyView, padding: .init(all: 8))
+        label.heightAnchor.apply(constant: 60)
         // The view starts with a progress, with a callback you can specify whether an error, a success or a new progress has occurred.
         constraintAccessories()
     }
@@ -118,6 +123,10 @@ public final class ALAnimatedMessageView: ALMessageView {
                 activityIndictor.startAnimating()
             }
         }
+    }
+    
+    override func layoutLabel() {
+        label.fadeLength = abs(self.frame.height - 10)
     }
     
     override func updateLabelFrame() -> CGRect {
