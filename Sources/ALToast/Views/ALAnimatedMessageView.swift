@@ -75,6 +75,7 @@ public final class ALAnimatedMessageView: ALMessageView {
         label.heightAnchor.apply(constant: 60)
         // The view starts with a progress, with a callback you can specify whether an error, a success or a new progress has occurred.
         constraintAccessories()
+        self.state = self.state
     }
     
     private func constraintAccessories() {
@@ -137,8 +138,12 @@ public final class ALAnimatedMessageView: ALMessageView {
     
     @MainActor
     public func update(_ state: State, shouldDismiss: Bool = false) {
-        self.state = state
-        self.feedback.play()
+        UIView.animate(withDuration: 0.25) { [weak self] in
+            self?.state = state
+        } completion: { [weak self] _ in
+            self?.feedback.play()
+        }
+        
         constraintAccessories()
         
         if shouldDismiss {
