@@ -1,8 +1,8 @@
 //
 //  File.swift
-//  File
+//  
 //
-//  Created by Francesco Bianco on 20/07/21.
+//  Created by Francesco Bianco on 21/12/21.
 //
 
 import Foundation
@@ -11,7 +11,7 @@ import MarqueeLabel
 #if canImport(UIKit)
 import UIKit
 
-public final class ALToastMessageView: UIVisualEffectView {
+public class ALMessageView: UIVisualEffectView {
     
     public var textColor: UIColor {
         if #available(iOS 13, *) {
@@ -57,15 +57,15 @@ public final class ALToastMessageView: UIVisualEffectView {
     
     var feedback: Feedback = .silent
     
-    private lazy var label: MarqueeLabel = { [unowned self] in
-        let label = MarqueeLabel(frame: makeFrame(), duration: self.hideAfter, fadeLength: 30)
+    lazy var label: MarqueeLabel = { [unowned self] in
+        let label = MarqueeLabel(frame: updateLabelFrame(), duration: self.hideAfter, fadeLength: 30)
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 1
         label.textAlignment = .center
         return label
     }()
     
-    private lazy var image: UIImageView = {
+    lazy var image: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 13.0, *) {
@@ -78,7 +78,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         return imageView
     }()
     
-    private lazy var activityIndictor: UIActivityIndicatorView = { [unowned self] in
+    lazy var activityIndictor: UIActivityIndicatorView = { [unowned self] in
         let style: UIActivityIndicatorView.Style
         if #available(iOS 13.0, *) {
             style = .medium
@@ -93,10 +93,10 @@ public final class ALToastMessageView: UIVisualEffectView {
         return activityView
     }()
 
-    private let vibrancyView: UIVisualEffectView
-    private let shadowning: Bool
-    private let isProgress: Bool
-    private let hideAfter: TimeInterval
+    let vibrancyView: UIVisualEffectView
+    let shadowning: Bool
+    let isProgress: Bool
+    let hideAfter: TimeInterval
     /**
      Initialize a progressHUD
      
@@ -129,9 +129,9 @@ public final class ALToastMessageView: UIVisualEffectView {
         self.setup()
     }
     
-    private static let activityIndicatorSize: CGFloat = 40
-    private static let labelHeight: CGFloat = 40
-    private static let singlePadding: CGFloat = 4
+    static let activityIndicatorSize: CGFloat = 40
+    static let labelHeight: CGFloat = 40
+    static let singlePadding: CGFloat = 4
     
     var onPositiveButtonTap: (() -> Void)?
     
@@ -142,8 +142,11 @@ public final class ALToastMessageView: UIVisualEffectView {
         setupBaseComponents()
     
         let gestureRec = UITapGestureRecognizer(target: self, action: #selector(buttonDismiss))
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(buttonDismiss))
+        swipeGesture.direction = .up
         self.isUserInteractionEnabled = true
         addGestureRecognizer(gestureRec)
+        addGestureRecognizer(swipeGesture)
         
         if shadowning {
             self.layer.shadowColor = UIColor.black.cgColor
@@ -151,28 +154,16 @@ public final class ALToastMessageView: UIVisualEffectView {
         }
     }
     
-    private func setupBaseComponents() {
-        vibrancyView.contentView.addSubview(label)
+    func setupBaseComponents() {
         
-        if isProgress {
-            vibrancyView.contentView.addSubview(activityIndictor)
-            activityIndictor.trailingAnchor.anchor(to: vibrancyView.trailingAnchor, constant: -8)
-            activityIndictor.mirrorVConstraints(from: vibrancyView)
-            activityIndictor.widthAnchor.equal(to: vibrancyView.heightAnchor, multiplier: 0.8)
-        } else {
-            vibrancyView.contentView.addSubview(image)
-            image.leadingAnchor.anchor(to: vibrancyView.leadingAnchor, constant: 8)
-            image.mirrorVConstraints(from: vibrancyView, padding: .init(all: 8))
-            image.widthAnchor.equal(to: vibrancyView.heightAnchor, multiplier: 0.8)
-        }
     }
     
-    @objc private func buttonDismiss() {
+    @objc func buttonDismiss() {
         onPositiveButtonTap?()
         hide(animated: true)
     }
     
-    private static var prominentStyle: UIBlurEffect {
+    static var prominentStyle: UIBlurEffect {
         if #available(iOS 13.0, *) {
             return UIBlurEffect(style: .systemChromeMaterial)
         } else {
@@ -181,7 +172,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         }
     }
     
-    private static var lightStyle: UIBlurEffect {
+    static var lightStyle: UIBlurEffect {
         if #available(iOS 13.0, *) {
             return UIBlurEffect(style: .systemUltraThinMaterial)
         } else {
@@ -190,7 +181,7 @@ public final class ALToastMessageView: UIVisualEffectView {
         }
     }
     
-    private func makeFrame() -> CGRect {
+    func updateLabelFrame() -> CGRect {
         let labelOrigin = CGPoint(x: 0.0, y: 0.0)
         let labelSize: CGSize
         if self.isProgress {
@@ -203,52 +194,8 @@ public final class ALToastMessageView: UIVisualEffectView {
     
     public override func layoutIfNeeded() {
         super.layoutIfNeeded()
-        label.frame = makeFrame()
+        label.frame = updateLabelFrame()
         label.fadeLength = abs(self.frame.height - 10)
-    }
-    
-    public override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        
-        if let superview = self.superview {
-            // HUD visualizzata
-            
-            let isPhone = UIDevice.current.userInterfaceIdiom == .phone
-            
-            let height: CGFloat = (Self.singlePadding * 2) + Self.labelHeight
-            
-            self.translatesAutoresizingMaskIntoConstraints = false
-            self.widthAnchor.equal(to: superview.widthAnchor, multiplier: isPhone ? 5/6 : 2/5)
-          
-            self.specify(width: nil, height: height)
-            if origin != .center {
-                self.mirrorVConstraints(from: superview,
-                                        options: origin == .bottom ? .bottom : .top,
-                                        padding: .init(all: 8),
-                                        safeArea: true)
-            } else {
-                self.centerYAnchor.anchor(to: superview.centerYAnchor)
-            }
-            self.centerXAnchor.anchor(to: superview.centerXAnchor)
-            
-            vibrancyView.frame = self.bounds
-            
-            layer.masksToBounds = true
-            label.text = text
-            label.textAlignment = NSTextAlignment.center
-            label.textColor = textColor
-            self.transform = .init(translationX: 0.0, y: origin == .bottom ? 200 : -200)
-            
-            if isProgress {
-                activityIndictor.startAnimating()
-            }
-        }
-    }
-    
-    public enum OriginSide {
-        case bottom
-        case center
-        case top
     }
     
     var origin: OriginSide!
@@ -338,3 +285,4 @@ public final class ALToastMessageView: UIVisualEffectView {
 }
 
 #endif
+
