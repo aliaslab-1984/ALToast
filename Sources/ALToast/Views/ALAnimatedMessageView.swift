@@ -29,11 +29,13 @@ public final class ALAnimatedMessageView: ALMessageView {
                 self.tintColor = successMessage.color.tintColor.withAlphaComponent(0.7)
                 self.contentView.backgroundColor = successMessage.color.color?.withAlphaComponent(0.7)
                 self.feedback = successMessage.feedbackType
+                self.symbolName = successMessage.imageResource
                 label.text = successMessage.message
             case .warning:
                 self.tintColor = warningMessage.color.tintColor.withAlphaComponent(0.7)
                 self.contentView.backgroundColor = warningMessage.color.color?.withAlphaComponent(0.7)
                 self.feedback = warningMessage.feedbackType
+                self.symbolName = warningMessage.imageResource
                 label.text = warningMessage.message
             }
         }
