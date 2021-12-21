@@ -119,9 +119,7 @@ public final class ALAnimatedMessageView: ALMessageView {
             vibrancyView.frame = self.bounds
             
             layer.masksToBounds = true
-            label.text = text
             label.textAlignment = NSTextAlignment.center
-            label.textColor = textColor
             self.transform = .init(translationX: 0.0, y: origin == .bottom ? 200 : -200)
             
             if state == .progress {
