@@ -19,25 +19,7 @@ public final class ALAnimatedMessageView: ALMessageView {
     private let warningMessage: ALMessage
     private var state: State {
         didSet {
-            switch state {
-            case .progress:
-                self.tintColor = progressMessage.color.tintColor.withAlphaComponent(0.7)
-                self.contentView.backgroundColor = progressMessage.color.color?.withAlphaComponent(0.7)
-                self.feedback = progressMessage.feedbackType
-                label.text = progressMessage.message
-            case .success:
-                self.tintColor = successMessage.color.tintColor.withAlphaComponent(0.7)
-                self.contentView.backgroundColor = successMessage.color.color?.withAlphaComponent(0.7)
-                self.feedback = successMessage.feedbackType
-                self.symbolName = successMessage.imageResource
-                label.text = successMessage.message
-            case .warning:
-                self.tintColor = warningMessage.color.tintColor.withAlphaComponent(0.7)
-                self.contentView.backgroundColor = warningMessage.color.color?.withAlphaComponent(0.7)
-                self.feedback = warningMessage.feedbackType
-                self.symbolName = warningMessage.imageResource
-                label.text = warningMessage.message
-            }
+            display(state: state)
         }
     }
     
@@ -60,6 +42,7 @@ public final class ALAnimatedMessageView: ALMessageView {
             self.activityIndictor.style = .large
         }
         label.font = .preferredFont(forTextStyle: .headline)
+        display(state: initialState)
     }
     
     required init?(coder: NSCoder) {
@@ -75,7 +58,28 @@ public final class ALAnimatedMessageView: ALMessageView {
         label.heightAnchor.apply(constant: 60)
         // The view starts with a progress, with a callback you can specify whether an error, a success or a new progress has occurred.
         constraintAccessories()
-        self.state = self.state
+    }
+    
+    private func display(state: State) {
+        switch state {
+        case .progress:
+            self.tintColor = progressMessage.color.tintColor.withAlphaComponent(0.7)
+            self.contentView.backgroundColor = progressMessage.color.color?.withAlphaComponent(0.7)
+            self.feedback = progressMessage.feedbackType
+            label.text = progressMessage.message
+        case .success:
+            self.tintColor = successMessage.color.tintColor.withAlphaComponent(0.7)
+            self.contentView.backgroundColor = successMessage.color.color?.withAlphaComponent(0.7)
+            self.feedback = successMessage.feedbackType
+            self.symbolName = successMessage.imageResource
+            label.text = successMessage.message
+        case .warning:
+            self.tintColor = warningMessage.color.tintColor.withAlphaComponent(0.7)
+            self.contentView.backgroundColor = warningMessage.color.color?.withAlphaComponent(0.7)
+            self.feedback = warningMessage.feedbackType
+            self.symbolName = warningMessage.imageResource
+            label.text = warningMessage.message
+        }
     }
     
     private func constraintAccessories() {
