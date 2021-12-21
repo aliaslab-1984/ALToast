@@ -53,7 +53,10 @@ public final class ALAnimatedMessageView: ALMessageView {
         self.warningMessage = warning
         self.progressMessage = progress
         self.state = initialState
-        super.init(shadowing: false, isProgress: false, hideAfter: 0)
+        if #available(iOS 13.0, *) {
+            self.activityIndictor.style = .large
+        }
+        super.init(shadowing: true, isProgress: false, hideAfter: 0)
     }
     
     required init?(coder: NSCoder) {
@@ -92,12 +95,9 @@ public final class ALAnimatedMessageView: ALMessageView {
         
         if let superview = self.superview {
             // The Toast is visible.
-            
-            let isPhone = UIDevice.current.userInterfaceIdiom == .phone
-            
             self.translatesAutoresizingMaskIntoConstraints = false
 
-            self.specify(width: 250, height: 250)
+            self.specify(width: 200, height: 200)
             
             self.centerYAnchor.anchor(to: superview.centerYAnchor)
             self.centerXAnchor.anchor(to: superview.centerXAnchor)
