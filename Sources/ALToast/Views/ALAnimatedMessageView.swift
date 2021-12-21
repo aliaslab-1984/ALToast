@@ -41,7 +41,7 @@ public final class ALAnimatedMessageView: ALMessageView {
         if #available(iOS 13.0, *) {
             self.activityIndictor.style = .large
         }
-        label.font = .preferredFont(forTextStyle: .headline)
+        label.font = .preferredFont(forTextStyle: .title3)
         display(state: initialState)
     }
     
@@ -53,7 +53,7 @@ public final class ALAnimatedMessageView: ALMessageView {
         vibrancyView.contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        label.mirrorVConstraints(from: vibrancyView, options: .bottom, padding: .init(all: 8))
+        label.mirrorVConstraints(from: vibrancyView, options: .bottom, padding: .init(all: 16))
         label.mirrorHConstraints(from: vibrancyView, padding: .init(all: 8))
         label.heightAnchor.apply(constant: 60)
         // The view starts with a progress, with a callback you can specify whether an error, a success or a new progress has occurred.
@@ -86,8 +86,8 @@ public final class ALAnimatedMessageView: ALMessageView {
         if state == .progress {
             if activityIndictor.superview == nil {
                 vibrancyView.contentView.addSubview(activityIndictor)
-                activityIndictor.mirrorVConstraints(from: vibrancyView, options: .top, padding: .init(all: 8))
-                activityIndictor.mirrorHConstraints(from: vibrancyView, padding: .init(all: 8))
+                activityIndictor.mirrorVConstraints(from: vibrancyView, options: .top, padding: .init(all: 16))
+                activityIndictor.mirrorHConstraints(from: vibrancyView, padding: .init(all: 16))
                 activityIndictor.bottomAnchor.anchor(to: label.topAnchor, constant: -8)
                 image.removeFromSuperview()
                 image.deactivateAllConstraints()
@@ -95,9 +95,9 @@ public final class ALAnimatedMessageView: ALMessageView {
         } else {
             if image.superview == nil {
                 vibrancyView.contentView.addSubview(image)
-                image.mirrorVConstraints(from: vibrancyView, options: .top, padding: .init(all: 8))
+                image.mirrorVConstraints(from: vibrancyView, options: .top, padding: .init(all: 16))
                 image.bottomAnchor.anchor(to: label.topAnchor, constant: -8)
-                image.mirrorHConstraints(from: vibrancyView, padding: .init(all: 8))
+                image.mirrorHConstraints(from: vibrancyView, padding: .init(all: 16))
                 activityIndictor.removeFromSuperview()
                 activityIndictor.deactivateAllConstraints()
             }
