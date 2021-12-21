@@ -96,8 +96,8 @@ public final class ALAnimatedMessageView: ALMessageView {
             let isPhone = UIDevice.current.userInterfaceIdiom == .phone
             
             self.translatesAutoresizingMaskIntoConstraints = false
-            self.widthAnchor.constraint(lessThanOrEqualTo: superview.widthAnchor, multiplier: isPhone ? 2/3 : 1/3, constant: 300).isActive = true
-            self.heightAnchor.equal(to: self.widthAnchor)
+
+            self.specify(width: 250, height: 250)
             
             self.centerYAnchor.anchor(to: superview.centerYAnchor)
             self.centerXAnchor.anchor(to: superview.centerXAnchor)
