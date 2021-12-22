@@ -42,6 +42,7 @@ public final class ALAnimatedMessageView: ALMessageView {
             self.activityIndictor.style = .large
         }
         label.font = .preferredFont(forTextStyle: .title3)
+        label.numberOfLines = 2
         display(state: initialState)
     }
     
@@ -158,7 +159,7 @@ public final class ALAnimatedMessageView: ALMessageView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         
-        layer.cornerRadius = self.frame.height / 4
+        layer.cornerRadius = self.frame.height / 5
     }
 }
 
