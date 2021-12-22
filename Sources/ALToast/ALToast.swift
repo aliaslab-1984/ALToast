@@ -36,6 +36,26 @@ public final class ALToast {
     }
     
     @MainActor
+    @discardableResult
+    public static func animatable(success: ALMessage = .success(message: "Success!", icon: .symbol(name: "checkmark"), hideAfter: ALMessage.defaultHideInterval, origin: .center),
+                                  warning: ALMessage = .warning(message: "Something went wrong..", icon: .symbol(name: "xmark"), hideAfter: ALMessage.defaultHideInterval, origin: .center),
+                                  progress: ALMessage = .info(message: "Progress..", icon: nil, hideAfter: ALMessage.defaultHideInterval, origin: .center),
+                                  initialState: ALAnimatedMessageView.State = .progress,
+                                  on view: AnyArrangeable? = nil) -> ALAnimatedMessageView? {
+        let animatable = ALAnimatedMessageView(success: success, warning: warning, progress: progress, initialState: initialState)
+        let presentable: AnyArrangeable
+        if let view = view {
+            presentable = view
+        } else if let root = rootPresentable {
+            presentable = root
+        } else {
+            return nil
+        }
+        animatable.show(on: presentable, origin: .center)
+        return animatable
+    }
+    
+    @MainActor
     private static func prepareAndShow(payload: ALMessage,
                                        tintColor: UIColor?,
                                        backgroundColor: SemanticColor,
