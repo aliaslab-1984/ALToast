@@ -67,6 +67,14 @@ public final class ALToastMessageView: ALMessageView {
         }
     }
     
+    override func updateLabelFrame() -> CGRect {
+        let paddingWidth = max(image.frame.width, activityIndictor.frame.width)
+        let labelOrigin = CGPoint(x: paddingWidth, y: 0.0)
+        let labelSize: CGSize
+        labelSize = CGSize(width: self.frame.width - 2 * (paddingWidth), height: self.frame.height)
+        return CGRect(origin: labelOrigin, size: labelSize)
+    }
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
         
