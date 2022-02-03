@@ -24,6 +24,7 @@ public class ALMessageView: UIVisualEffectView {
     public var text: String? {
         didSet {
             label.text = text
+            label.sizeToFit()
         }
     }
     
@@ -58,7 +59,7 @@ public class ALMessageView: UIVisualEffectView {
     var feedback: Feedback = .silent
     
     lazy var label: MarqueeLabel = { [unowned self] in
-        let label = MarqueeLabel(frame: updateLabelFrame(), duration: self.hideAfter, fadeLength: 30)
+        let label = MarqueeLabel(frame: CGRect.zero, duration: self.hideAfter, fadeLength: 30)
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 1
         label.textAlignment = .center
@@ -154,8 +155,10 @@ public class ALMessageView: UIVisualEffectView {
         }
     }
     
-    func setupBaseComponents() {
-        
+    func setupBaseComponents() { }
+    
+    func subViewsWidth() -> CGFloat {
+        return self.layer.frame.width
     }
     
     @objc func buttonDismiss() {
@@ -182,14 +185,9 @@ public class ALMessageView: UIVisualEffectView {
     }
     
     func updateLabelFrame() -> CGRect {
-        let labelOrigin = CGPoint(x: 0.0, y: 0.0)
-        let labelSize: CGSize
-        if self.isProgress {
-            labelSize = CGSize(width: self.frame.width, height: self.frame.height)
-        } else {
-            labelSize = CGSize(width: self.frame.width, height: self.frame.height)
-        }
-        return CGRect(origin: labelOrigin, size: labelSize)
+        let labelSize = CGSize(width: self.frame.width,
+                               height: self.frame.height)
+        return CGRect(origin: CGPoint.zero, size: labelSize)
     }
     
     public override func layoutIfNeeded() {
@@ -229,7 +227,7 @@ public class ALMessageView: UIVisualEffectView {
 
         UIView.animate(withDuration: 0.25,
                        delay: 0,
-                       usingSpringWithDamping: 1,
+                       usingSpringWithDamping: 0.7,
                        initialSpringVelocity: 1,
                        options: .curveEaseOut) { [weak self] in
             self?.alpha = 1

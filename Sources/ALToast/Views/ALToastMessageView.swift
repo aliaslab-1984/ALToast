@@ -38,11 +38,11 @@ public final class ALToastMessageView: ALMessageView {
             let isPhone = UIDevice.current.userInterfaceIdiom == .phone
             
             let height: CGFloat = (Self.singlePadding * 2) + Self.labelHeight
+            let superWidth = superview.frame.width * (isPhone ? 5/6 : 2/5)
+            let width = min(superWidth, subViewsWidth())
             
             self.translatesAutoresizingMaskIntoConstraints = false
-            self.widthAnchor.equal(to: superview.widthAnchor, multiplier: isPhone ? 5/6 : 2/5)
-          
-            self.specify(width: nil, height: height)
+            self.specify(width: width, height: height)
             if origin != .center {
                 self.mirrorVConstraints(from: superview,
                                         options: origin == .bottom ? .bottom : .top,
@@ -67,12 +67,20 @@ public final class ALToastMessageView: ALMessageView {
         }
     }
     
+    override func subViewsWidth() -> CGFloat {
+        let height: CGFloat = (Self.singlePadding * 2) + Self.labelHeight
+        return max(image.frame.width, height) + label.frame.width + Self.labelHeight / 2
+    }
+    
     override func updateLabelFrame() -> CGRect {
-        let paddingWidth = max(image.frame.width, activityIndictor.frame.width)
+        let paddingWidth = self.frame.height
         let labelOrigin = CGPoint(x: paddingWidth, y: 0.0)
-        let labelSize: CGSize
-        labelSize = CGSize(width: self.frame.width - 2 * (paddingWidth), height: self.frame.height)
-        return CGRect(origin: labelOrigin, size: labelSize)
+        let tWidth = min(label.frame.width,
+                         self.frame.width - paddingWidth )
+        let labelSize = CGSize(width: tWidth,
+                               height: self.frame.height)
+        return CGRect(origin: labelOrigin,
+                      size: labelSize)
     }
     
     public override func layoutSubviews() {
