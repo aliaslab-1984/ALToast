@@ -32,6 +32,8 @@ public struct ALMessage {
     let color: SemanticColor
     /// The required haptic feedback that will be performed, according to the semantic.
     let feedbackType: Feedback
+    /// Tells wheter the message is a progress or not.
+    let isProgress: Bool
     
     public static var defaultHideInterval: TimeInterval = 2.0
   
@@ -40,6 +42,7 @@ public struct ALMessage {
          hideAfter: TimeInterval? = 2.0,
          color: SemanticColor,
          origin: OriginSide = .top,
+         progress: Bool = false,
          feedback: Feedback) {
         self.message = message
         self.imageResource = resource
@@ -47,10 +50,11 @@ public struct ALMessage {
         self.origin = origin
         self.color = color
         self.feedbackType = feedback
+        self.isProgress = progress
     }
     
     public static func success(message: String?,
-                               icon: ImageResource? = .symbol(name: "checkmark"),
+                               icon: ImageResource? = .symbol(name: "checkmark.circle"),
                                hideAfter: TimeInterval? = Self.defaultHideInterval,
                                origin: OriginSide = .top) -> ALMessage {
         return ALMessage(message: message, resource: icon, hideAfter: hideAfter, color: .success, origin: origin, feedback: .success)
@@ -82,7 +86,7 @@ public struct ALMessage {
     public static func progress(message: String?,
                                 origin: OriginSide = .center,
                                 hideAfter: TimeInterval? = nil) -> ALMessage {
-        return ALMessage(message: message, resource: nil, hideAfter: hideAfter, color: .info, origin: origin, feedback: .info)
+        return ALMessage(message: message, resource: nil, hideAfter: hideAfter, color: .info, origin: origin, progress: true, feedback: .info)
     }
 }
 

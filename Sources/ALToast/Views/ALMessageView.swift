@@ -168,7 +168,7 @@ public class ALMessageView: UIVisualEffectView {
     
     static var prominentStyle: UIBlurEffect {
         if #available(iOS 13.0, *) {
-            return UIBlurEffect(style: .systemChromeMaterial)
+            return UIBlurEffect(style: .systemThickMaterial)
         } else {
             // Fallback on earlier versions
             return UIBlurEffect(style: .prominent)

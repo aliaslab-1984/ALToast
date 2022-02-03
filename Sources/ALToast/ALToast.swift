@@ -21,7 +21,8 @@ public final class ALToast {
                             on view: AnyArrangeable? = nil,
                             onTap: (() -> Void)? = nil,
                             onDismiss: (() -> Void)? = nil) -> ALToastMessageView? {
-        return prepareAndShow(payload: message, tintColor: message.color.tintColor, backgroundColor: message.color, on: view, isProgress: false, onTap: onTap, onDismiss: onDismiss)
+        
+        return prepareAndShow(payload: message, tintColor: message.color.tintColor, backgroundColor: message.color, on: view, isProgress: message.isProgress, onTap: onTap, onDismiss: onDismiss)
     }
     
     @MainActor

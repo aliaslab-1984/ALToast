@@ -32,8 +32,8 @@ public final class ALAnimatedMessageView: ALMessageView {
         case warning
     }
     
-    public init(success: ALMessage = .success(message: "Success!", icon: .symbol(name: "checkmark"), hideAfter: ALMessage.defaultHideInterval, origin: .center),
-                warning: ALMessage = .warning(message: "Something went wrong..", icon: .symbol(name: "xmark"), hideAfter: ALMessage.defaultHideInterval, origin: .center),
+    public init(success: ALMessage = .success(message: "Success!", icon: .symbol(name: "checkmark.circle"), hideAfter: ALMessage.defaultHideInterval, origin: .center),
+                warning: ALMessage = .warning(message: "Something went wrong..", icon: .symbol(name: "xmark.circle"), hideAfter: ALMessage.defaultHideInterval, origin: .center),
                 progress: ALMessage = .info(message: "Progress..", icon: nil, hideAfter: ALMessage.defaultHideInterval, origin: .center),
                 initialState: State = .progress) {
         self.successMessage = success

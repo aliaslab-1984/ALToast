@@ -18,7 +18,7 @@ public final class ALToastMessageView: ALMessageView {
         
         if isProgress {
             vibrancyView.contentView.addSubview(activityIndictor)
-            activityIndictor.trailingAnchor.anchor(to: vibrancyView.trailingAnchor, constant: -8)
+            activityIndictor.leadingAnchor.anchor(to: vibrancyView.leadingAnchor, constant: 8)
             activityIndictor.mirrorVConstraints(from: vibrancyView)
             activityIndictor.widthAnchor.equal(to: vibrancyView.heightAnchor, multiplier: 0.8)
         } else {
@@ -57,7 +57,7 @@ public final class ALToastMessageView: ALMessageView {
             
             layer.masksToBounds = true
             label.text = text
-            label.textAlignment = NSTextAlignment.center
+            label.textAlignment = .center
             label.textColor = textColor
             self.transform = .init(translationX: 0.0, y: origin == .bottom ? 200 : -200)
             
@@ -75,9 +75,9 @@ public final class ALToastMessageView: ALMessageView {
     override func updateLabelFrame() -> CGRect {
         let paddingWidth = self.frame.height
         let labelOrigin = CGPoint(x: paddingWidth, y: 0.0)
-        let tWidth = min(label.frame.width,
+        let textWidth = min(label.frame.width,
                          self.frame.width - paddingWidth )
-        let labelSize = CGSize(width: tWidth,
+        let labelSize = CGSize(width: textWidth,
                                height: self.frame.height)
         return CGRect(origin: labelOrigin,
                       size: labelSize)
