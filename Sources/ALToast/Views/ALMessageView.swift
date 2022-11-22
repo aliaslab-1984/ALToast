@@ -144,7 +144,7 @@ public class ALMessageView: UIVisualEffectView {
     
         let gestureRec = UITapGestureRecognizer(target: self, action: #selector(buttonDismiss))
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(buttonDismiss))
-        swipeGesture.direction = .up
+        swipeGesture.direction = origin.isTop ? .up : .down
         self.isUserInteractionEnabled = true
         addGestureRecognizer(gestureRec)
         addGestureRecognizer(swipeGesture)
@@ -266,7 +266,7 @@ public class ALMessageView: UIVisualEffectView {
                 return
             }
             self.alpha = 0
-            self.transform = .init(translationX: 0.0, y: self.origin.layoutStartingOffset)
+            self.transform = .init(translationX: 0.0, y: -self.origin.layoutStartingOffset)
         }, completion: { [weak self] (completed) in
             if completed {
                 self?.isHidden = true
