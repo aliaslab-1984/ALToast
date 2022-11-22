@@ -29,11 +29,11 @@ public enum OriginSide: Equatable {
     var layoutStartingOffset: CGFloat {
         switch self {
         case .top:
-            return -200
-        case .center:
-            return -200
-        case .bottom:
             return 200
+        case .center:
+            return 200
+        case .bottom:
+            return -200
         }
     }
     
