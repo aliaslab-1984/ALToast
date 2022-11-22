@@ -27,17 +27,14 @@ public enum OriginSide: Equatable {
     }
     
     var layoutStartingOffset: CGFloat {
-        let finalOffset: Double
         switch self {
-        case let .top(offsetFromTop):
-            finalOffset = offsetFromTop - 200
-        case let .center(offset):
-            finalOffset = offset + 200
-        case let .bottom(offsetFromBottom):
-            finalOffset = offsetFromBottom + 200
+        case .top:
+            return -200
+        case .center:
+            return -200
+        case .bottom:
+            return 200
         }
-        
-        return finalOffset
     }
     
     var offset: CGFloat {
