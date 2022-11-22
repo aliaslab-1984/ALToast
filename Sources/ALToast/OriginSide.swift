@@ -30,11 +30,11 @@ public enum OriginSide: Equatable {
         let finalOffset: Double
         switch self {
         case let .top(offsetFromTop):
-            finalOffset = offsetFromTop + 200
+            finalOffset = offsetFromTop - 200
         case let .center(offset):
             finalOffset = offset + 200
         case let .bottom(offsetFromBottom):
-            finalOffset = offsetFromBottom - 200
+            finalOffset = offsetFromBottom + 200
         }
         
         return finalOffset
