@@ -27,13 +27,12 @@ public enum OriginSide: Equatable {
     }
     
     var layoutStartingOffset: CGFloat {
-        switch self {
-        case .bottom(let offsetFromBottom):
-            return offsetFromBottom + 200
-        case .center(let offset):
-            return -offset - 200
-        case .top(let offsetFromTop):
-            return -offsetFromTop - 200
+        if !self.isTop, !self.isCenter {
+            // bottom
+            return 200
+        } else {
+            // center and top
+            return -200
         }
     }
     
