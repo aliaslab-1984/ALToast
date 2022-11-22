@@ -13,6 +13,6 @@ final class ALToastTests: XCTestCase {
         let origin = OriginSide.bottom(offsetFromBottom: 70)
         let origin2 = OriginSide.center(offset: 70)
         
-        XCTAssertNotEqual(origin.layoutStartingOffset, origin2.layoutStartingOffset)
+        XCTAssertNotEqual(origin.originStart, origin2.originStart)
     }
 }

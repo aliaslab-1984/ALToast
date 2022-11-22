@@ -125,7 +125,7 @@ public final class ALAnimatedMessageView: ALMessageView {
             layer.masksToBounds = true
             label.textAlignment = NSTextAlignment.center
             
-            self.transform = .init(translationX: 0.0, y: origin.layoutStartingOffset)
+            self.transform = .init(translationX: 0.0, y: origin.originStart)
             
             if state == .progress {
                 activityIndictor.startAnimating()

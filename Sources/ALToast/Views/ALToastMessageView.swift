@@ -60,7 +60,7 @@ public final class ALToastMessageView: ALMessageView {
             label.text = text
             label.textAlignment = .center
             label.textColor = textColor
-            self.transform = .init(translationX: 0.0, y: origin.layoutStartingOffset)
+            self.transform = .init(translationX: 0.0, y: origin.originStart)
             
             if isProgress {
                 activityIndictor.startAnimating()

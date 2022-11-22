@@ -108,11 +108,13 @@ public class ALMessageView: UIVisualEffectView {
     @MainActor
     public init(shadowing: Bool = true,
                 isProgress: Bool = false,
+                origin: OriginSide = .top(offsetFromTop: 0.0),
                 hideAfter: TimeInterval) {
         let blurEffect = shadowing ? Self.lightStyle : Self.prominentStyle
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         self.shadowning = shadowing
         self.isProgress = isProgress
+        self.origin = origin
         self.vibrancyView.translatesAutoresizingMaskIntoConstraints = false
         self.hideAfter = hideAfter
         super.init(effect: blurEffect)
@@ -126,6 +128,7 @@ public class ALMessageView: UIVisualEffectView {
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         shadowning = false
         self.hideAfter = 2.0
+        self.origin = .top(offsetFromTop: 0.0)
         super.init(coder: aDecoder)
         self.setup()
     }
@@ -200,7 +203,7 @@ public class ALMessageView: UIVisualEffectView {
         label.fadeLength = abs(self.frame.height - 10)
     }
     
-    var origin: OriginSide!
+    var origin: OriginSide
     
     var onDismiss: (() -> Void)?
     
@@ -266,7 +269,7 @@ public class ALMessageView: UIVisualEffectView {
                 return
             }
             self.alpha = 0
-            self.transform = .init(translationX: 0.0, y: self.origin.layoutStartingOffset)
+            self.transform = .init(translationX: 0.0, y: self.origin.originStart)
         }, completion: { [weak self] (completed) in
             if completed {
                 self?.isHidden = true

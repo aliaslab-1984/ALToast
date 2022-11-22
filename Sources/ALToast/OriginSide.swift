@@ -26,7 +26,7 @@ public enum OriginSide: Equatable {
         }
     }
     
-    var layoutStartingOffset: CGFloat {
+    var originStart: CGFloat {
         if !self.isTop, !self.isCenter {
             // bottom
             return 200
