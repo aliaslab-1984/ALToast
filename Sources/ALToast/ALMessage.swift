@@ -41,7 +41,7 @@ public struct ALMessage {
          resource: ImageResource? = nil,
          hideAfter: TimeInterval? = 2.0,
          color: SemanticColor,
-         origin: OriginSide = .top,
+         origin: OriginSide = .top(offsetFromTop: 0),
          progress: Bool = false,
          feedback: Feedback) {
         self.message = message
@@ -56,21 +56,21 @@ public struct ALMessage {
     public static func success(message: String?,
                                icon: ImageResource? = .symbol(name: "checkmark.circle"),
                                hideAfter: TimeInterval? = Self.defaultHideInterval,
-                               origin: OriginSide = .top) -> ALMessage {
+                               origin: OriginSide = .top(offsetFromTop: 0)) -> ALMessage {
         return ALMessage(message: message, resource: icon, hideAfter: hideAfter, color: .success, origin: origin, feedback: .success)
     }
     
     public static func warning(message: String?,
                                icon: ImageResource? = .symbol(name: "exclamationmark.triangle"),
                                hideAfter: TimeInterval? = Self.defaultHideInterval,
-                               origin: OriginSide = .top) -> ALMessage {
+                               origin: OriginSide = .top(offsetFromTop: 0.0)) -> ALMessage {
         return ALMessage(message: message, resource: icon, hideAfter: hideAfter, color: .warning, origin: origin, feedback: .warning)
     }
     
     public static func info(message: String?,
                             icon: ImageResource? = .symbol(name: "info.circle"),
                             hideAfter: TimeInterval? = Self.defaultHideInterval,
-                            origin: OriginSide = .top) -> ALMessage {
+                            origin: OriginSide = .top(offsetFromTop: 0.0)) -> ALMessage {
         return ALMessage(message: message, resource: icon, hideAfter: hideAfter, color: .info, origin: origin, feedback: .info)
     }
     
@@ -78,13 +78,13 @@ public struct ALMessage {
                               icon: ImageResource?,
                               color: UIColor,
                               hideAfter: TimeInterval? = Self.defaultHideInterval,
-                              origin: OriginSide = .top,
+                              origin: OriginSide = .top(offsetFromTop: 0.0),
                               feedback: Feedback) -> ALMessage {
         return ALMessage(message: message, resource: icon, hideAfter: hideAfter, color: .custom(color: color), origin: origin, feedback: feedback)
     }
     
     public static func progress(message: String?,
-                                origin: OriginSide = .center,
+                                origin: OriginSide = .center(offset: 0.0),
                                 hideAfter: TimeInterval? = nil) -> ALMessage {
         return ALMessage(message: message, resource: nil, hideAfter: hideAfter, color: .info, origin: origin, progress: true, feedback: .info)
     }

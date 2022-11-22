@@ -206,7 +206,7 @@ public class ALMessageView: UIVisualEffectView {
     
     @MainActor
     public func show(on view: AnyArrangeable,
-                     origin: OriginSide = .bottom,
+                     origin: OriginSide = .bottom(offsetFromBottom: 0.0),
                      animated: Bool = true,
                      hideAfter: TimeInterval? = 4.0) {
         
@@ -262,8 +262,11 @@ public class ALMessageView: UIVisualEffectView {
         
         UIView.animate(withDuration: 0.25,
                        animations: { [weak self] in
-            self?.alpha = 0
-            self?.transform = .init(translationX: 0.0, y: self?.origin == .bottom ? 200 : -200)
+            guard let self else {
+                return
+            }
+            self.alpha = 0
+            self.transform = .init(translationX: 0.0, y: self.origin.layoutStartingOffset)
         }, completion: { [weak self] (completed) in
             if completed {
                 self?.isHidden = true

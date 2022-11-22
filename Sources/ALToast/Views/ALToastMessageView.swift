@@ -43,13 +43,14 @@ public final class ALToastMessageView: ALMessageView {
             
             self.translatesAutoresizingMaskIntoConstraints = false
             self.specify(width: width, height: height)
-            if origin != .center {
+            
+            if !origin.isCenter {
                 self.mirrorVConstraints(from: superview,
-                                        options: origin == .bottom ? .bottom : .top,
-                                        padding: .init(all: 8),
+                                        options: !origin.isTop ? .bottom : .top,
+                                        padding: .init(all: 8 + origin.offset),
                                         safeArea: true)
             } else {
-                self.centerYAnchor.anchor(to: superview.centerYAnchor)
+                self.centerYAnchor.anchor(to: superview.centerYAnchor, constant: origin.offset)
             }
             self.centerXAnchor.anchor(to: superview.centerXAnchor)
             
@@ -59,7 +60,7 @@ public final class ALToastMessageView: ALMessageView {
             label.text = text
             label.textAlignment = .center
             label.textColor = textColor
-            self.transform = .init(translationX: 0.0, y: origin == .bottom ? 200 : -200)
+            self.transform = .init(translationX: 0.0, y: origin.layoutStartingOffset)
             
             if isProgress {
                 activityIndictor.startAnimating()
