@@ -105,7 +105,6 @@ public class ALMessageView: UIVisualEffectView {
         - text: what to display
         - shadowing: true to have a lighter dialog (usually because there is a shadowing view under it)
      */
-    @MainActor
     public init(shadowing: Bool = true,
                 isProgress: Bool = false,
                 origin: OriginSide = .top(offsetFromTop: 0.0),
