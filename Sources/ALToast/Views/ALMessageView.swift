@@ -28,7 +28,7 @@ public class ALMessageView: UIVisualEffectView {
         }
     }
     
-    public var symbolName: ImageResource? {
+    public var symbolName: ToastImageResource? {
         didSet {
             if let imageN = symbolName {
                 

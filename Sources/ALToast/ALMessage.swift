@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 /// Represents a generic image resource that could be displayed inside the Toast.
-public enum ImageResource {
+public enum ToastImageResource {
     /// An SFSymbol name.
     case symbol(name: String)
     /// A generic optional UIImage (it will be resized to match the toast size).
@@ -23,7 +23,7 @@ public struct ALMessage {
     /// The text message that will be displayed inside the toast.
     let message: String?
     /// The optional image that will be displayed inside the toast.
-    let imageResource: ImageResource?
+    let imageResource: ToastImageResource?
     /// A time interval after which the toast view will disappear.
     let hideAfter: TimeInterval?
     /// Where the toast view will be presented.
@@ -38,7 +38,7 @@ public struct ALMessage {
     public static var defaultHideInterval: TimeInterval = 2.0
   
     init(message: String?,
-         resource: ImageResource? = nil,
+         resource: ToastImageResource? = nil,
          hideAfter: TimeInterval? = 2.0,
          color: SemanticColor,
          origin: OriginSide = .top(offsetFromTop: 0),
@@ -54,28 +54,28 @@ public struct ALMessage {
     }
     
     public static func success(message: String?,
-                               icon: ImageResource? = .symbol(name: "checkmark.circle"),
+                               icon: ToastImageResource? = .symbol(name: "checkmark.circle"),
                                hideAfter: TimeInterval? = Self.defaultHideInterval,
                                origin: OriginSide = .top(offsetFromTop: 0)) -> ALMessage {
         return ALMessage(message: message, resource: icon, hideAfter: hideAfter, color: .success, origin: origin, feedback: .success)
     }
     
     public static func warning(message: String?,
-                               icon: ImageResource? = .symbol(name: "exclamationmark.triangle"),
+                               icon: ToastImageResource? = .symbol(name: "exclamationmark.triangle"),
                                hideAfter: TimeInterval? = Self.defaultHideInterval,
                                origin: OriginSide = .top(offsetFromTop: 0.0)) -> ALMessage {
         return ALMessage(message: message, resource: icon, hideAfter: hideAfter, color: .warning, origin: origin, feedback: .warning)
     }
     
     public static func info(message: String?,
-                            icon: ImageResource? = .symbol(name: "info.circle"),
+                            icon: ToastImageResource? = .symbol(name: "info.circle"),
                             hideAfter: TimeInterval? = Self.defaultHideInterval,
                             origin: OriginSide = .top(offsetFromTop: 0.0)) -> ALMessage {
         return ALMessage(message: message, resource: icon, hideAfter: hideAfter, color: .info, origin: origin, feedback: .info)
     }
     
     public static func custom(message: String?,
-                              icon: ImageResource?,
+                              icon: ToastImageResource?,
                               color: UIColor,
                               hideAfter: TimeInterval? = Self.defaultHideInterval,
                               origin: OriginSide = .top(offsetFromTop: 0.0),
