@@ -24,10 +24,11 @@ public class ALMessageView: UIVisualEffectView {
     public var text: String? {
         didSet {
             label.text = text
+            label.sizeToFit()
         }
     }
     
-    public var symbolName: ImageResource? {
+    public var symbolName: ToastImageResource? {
         didSet {
             if let imageN = symbolName {
                 
@@ -58,7 +59,7 @@ public class ALMessageView: UIVisualEffectView {
     var feedback: Feedback = .silent
     
     lazy var label: MarqueeLabel = { [unowned self] in
-        let label = MarqueeLabel(frame: updateLabelFrame(), duration: self.hideAfter, fadeLength: 30)
+        let label = MarqueeLabel(frame: CGRect.zero, duration: self.hideAfter, fadeLength: 30)
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 1
         label.textAlignment = .center
@@ -104,14 +105,15 @@ public class ALMessageView: UIVisualEffectView {
         - text: what to display
         - shadowing: true to have a lighter dialog (usually because there is a shadowing view under it)
      */
-    @MainActor
     public init(shadowing: Bool = true,
                 isProgress: Bool = false,
+                origin: OriginSide = .top(offsetFromTop: 0.0),
                 hideAfter: TimeInterval) {
         let blurEffect = shadowing ? Self.lightStyle : Self.prominentStyle
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         self.shadowning = shadowing
         self.isProgress = isProgress
+        self.origin = origin
         self.vibrancyView.translatesAutoresizingMaskIntoConstraints = false
         self.hideAfter = hideAfter
         super.init(effect: blurEffect)
@@ -125,6 +127,7 @@ public class ALMessageView: UIVisualEffectView {
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         shadowning = false
         self.hideAfter = 2.0
+        self.origin = .top(offsetFromTop: 0.0)
         super.init(coder: aDecoder)
         self.setup()
     }
@@ -143,7 +146,7 @@ public class ALMessageView: UIVisualEffectView {
     
         let gestureRec = UITapGestureRecognizer(target: self, action: #selector(buttonDismiss))
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(buttonDismiss))
-        swipeGesture.direction = .up
+        swipeGesture.direction = origin.isTop ? .up : .down
         self.isUserInteractionEnabled = true
         addGestureRecognizer(gestureRec)
         addGestureRecognizer(swipeGesture)
@@ -154,8 +157,10 @@ public class ALMessageView: UIVisualEffectView {
         }
     }
     
-    func setupBaseComponents() {
-        
+    func setupBaseComponents() { }
+    
+    func subViewsWidth() -> CGFloat {
+        return self.layer.frame.width
     }
     
     @objc func buttonDismiss() {
@@ -165,7 +170,7 @@ public class ALMessageView: UIVisualEffectView {
     
     static var prominentStyle: UIBlurEffect {
         if #available(iOS 13.0, *) {
-            return UIBlurEffect(style: .systemChromeMaterial)
+            return UIBlurEffect(style: .systemThickMaterial)
         } else {
             // Fallback on earlier versions
             return UIBlurEffect(style: .prominent)
@@ -182,14 +187,9 @@ public class ALMessageView: UIVisualEffectView {
     }
     
     func updateLabelFrame() -> CGRect {
-        let labelOrigin = CGPoint(x: 0.0, y: 0.0)
-        let labelSize: CGSize
-        if self.isProgress {
-            labelSize = CGSize(width: self.frame.width, height: self.frame.height)
-        } else {
-            labelSize = CGSize(width: self.frame.width, height: self.frame.height)
-        }
-        return CGRect(origin: labelOrigin, size: labelSize)
+        let labelSize = CGSize(width: self.frame.width,
+                               height: self.frame.height)
+        return CGRect(origin: CGPoint.zero, size: labelSize)
     }
     
     public override func layoutIfNeeded() {
@@ -202,13 +202,13 @@ public class ALMessageView: UIVisualEffectView {
         label.fadeLength = abs(self.frame.height - 10)
     }
     
-    var origin: OriginSide!
+    var origin: OriginSide
     
     var onDismiss: (() -> Void)?
     
     @MainActor
     public func show(on view: AnyArrangeable,
-                     origin: OriginSide = .bottom,
+                     origin: OriginSide = .bottom(offsetFromBottom: 0.0),
                      animated: Bool = true,
                      hideAfter: TimeInterval? = 4.0) {
         
@@ -229,7 +229,7 @@ public class ALMessageView: UIVisualEffectView {
 
         UIView.animate(withDuration: 0.25,
                        delay: 0,
-                       usingSpringWithDamping: 1,
+                       usingSpringWithDamping: 0.7,
                        initialSpringVelocity: 1,
                        options: .curveEaseOut) { [weak self] in
             self?.alpha = 1
@@ -264,8 +264,11 @@ public class ALMessageView: UIVisualEffectView {
         
         UIView.animate(withDuration: 0.25,
                        animations: { [weak self] in
-            self?.alpha = 0
-            self?.transform = .init(translationX: 0.0, y: self?.origin == .bottom ? 200 : -200)
+            guard let self else {
+                return
+            }
+            self.alpha = 0
+            self.transform = .init(translationX: 0.0, y: self.origin.originStart)
         }, completion: { [weak self] (completed) in
             if completed {
                 self?.isHidden = true
